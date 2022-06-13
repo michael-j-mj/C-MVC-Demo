@@ -1,0 +1,60 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  width:100%;
+
+}
+section.grid {
+    font-size: smaller;
+}
+
+    section.grid a {
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        section.grid a:hover {
+            background-color: cyan;
+        }
+
+    section.grid a {
+        text-decoration: none;
+        cursor: pointer;
+        color: black;
+    }
+.DisplayLeft{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+    padding-right:100px;
+}
+#HomePage {
+  
+    background-color: rgb(55,55,55);
+    color:white;
+
+}
+.home {
+    min-width: 80vw;
+    min-height: 80vh;
+    color: white;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+
+}

@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="home">
+
+  <h1 id="first" class="display-4 text-danger fw-bold">Welcome!</h1>
+  
+  <div > 
+    <div style="display:flex;" id="second">
+        <h4>My Name is &nbsp </h4>  <h3 class="text-danger">Michael Jun</h3>
+    </div>
+    </div>
+    <br />
+    <div  id="third"> 
+        <h4>Welcome to my C# demo - Video Game & Console Sales<h4>
+
+      </div>
+ <div > 
+
+
+</div>
+<script> 
+    $("#first").css("display","none");
+      $("#second").css("display","none");
+        $("#third").css("display","none");
+    setTimeout(()=>{
+    $("#first").fadeIn();
+    },2000);
+        setTimeout(()=>{
+    $("#second").fadeIn();
+    },3500);
+        setTimeout(()=>{
+    $("#third").fadeIn();
+    },5000);
+    $(".container-fluid").mouseenter(()=>
+    {
+       $("h1").css("padding-bottom","20px");
+    });
+        $(".container-fluid").mouseleave(()=>
+    {
+       $("h1").css("padding-bottom","0px");
+    });
+</script>

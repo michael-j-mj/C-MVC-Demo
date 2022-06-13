@@ -1,0 +1,91 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model PagedList.IPagedList<VideoGameStatsDemo.Models.Game>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<form asp-controller="Games" asp-action="Index">
+    <div style="display:flex;justify-content:space-between">
+        <p>
+            Title: <input type="text" name="SearchString" value="@ViewBag.Search" />
+            <input type="submit" value="Filter" class="btn-primary btn btn-sm" />
+        </p>
+
+        <select class="p-2" name="SortField" onchange="this.form.submit()">
+            <option value="">Sort By</option>
+            <option value="Name">Name</option>
+            <option value="Name_Desc">Name-Desc</option>
+            <option value="Value">Sales-ASC</option>
+            <option value="Value_Desc">Sales-DESC</option>
+            <option value="Console">Console</option>
+        </select>
+    </div>
+</form>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead >
+        <tr class="bg-primary text-white">
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Catagory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Value)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                     <a asp-action="Details" asp-route-id="@item.Id">
+                    @Html.DisplayFor(modelItem => item.Name)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Catagory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">|Details|</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="DisplayLeft">
+    <button class="btn btn-primary btn-sm"><a> @Html.ActionLink( "<Previous" , "Index", new { page = Model.PageNumber-1 ,searchString=@ViewBag.Search },new {@class="text-white"}) </a></button>
+    <p style="padding:0 10px 0 10px;">| Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount |</p>
+    <button class="btn btn-primary btn-sm"> <a> @Html.ActionLink( "Next>" , "Index", new { page = Model.PageNumber+1, searchString=@ViewBag.Search  },new {@class="text-white"}) </a></button>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    let test="Dd";
+    console.log(data);
+
+</script>

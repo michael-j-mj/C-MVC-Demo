@@ -1,0 +1,116 @@
+﻿@model IEnumerable<VideoGameStatsDemo.Models.GameConsole>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<section class="grid">
+  <div class="d-flex bg-primary text-white">
+  <div class="p-1" style="flex:0 0 20%"> @Html.ActionLink( @Html.DisplayNameFor(model => model.ConsoleName)  , "Index", new { sortOrder = ViewBag.NameSortParm }, new {@class="text-white"})
+</div>
+  <div class="p-1" style="flex:0 0 15%"> @Html.ActionLink( @Html.DisplayNameFor(model => model.Manufacturer)  , "Index", new { sortOrder = ViewBag.CompanySortParm }, new {@class="text-white"})
+</div>
+  <div class="p-1" style="flex:0 0 20%"> @Html.ActionLink( @Html.DisplayNameFor(model => model.ReleaseYear)  , "Index", new { sortOrder = ViewBag.DateSortParm }, new {@class="text-white"})
+  </div>
+   <div class="p-1" style="flex:0 0 20%"> @Html.ActionLink( @Html.DisplayNameFor(model => model.ConsoleSold)  , "Index", new { sortOrder = ViewBag.SoldParm }, new {@class="text-white"})
+  </div>
+  </div>
+  @foreach (var item in Model) {
+            <div class="d-flex">
+           
+             <div class="p-1" style="flex:0 0 20%">
+                   <a  asp-action="Details" asp-route-id="@item.ConsoleName">
+                @Html.DisplayFor(modelItem => item.ConsoleName)
+                         </a> 
+            </div>
+               <div class="p-1" style="flex:0 0 15%">
+                @Html.DisplayFor(modelItem => item.Manufacturer)
+           </div>
+             <div class="p-1" style="flex:0 0 20%">
+                @Html.DisplayFor(modelItem => item.ReleaseYear)
+           </div>
+                <div class="p-1" style="flex:0 0 20%">
+                @Html.DisplayFor(modelItem => item.ConsoleSold)
+            </div>
+   
+             <div class="p-1" style="flex:0 0 20%">
+                 
+                        <a  asp-action="Details" asp-route-id="@item.ConsoleName">
+                           Details 
+                            </a>
+                            @if(User.Identity!=null)
+                            {
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                            <a asp-action="Create"> | Create New | </a>
+                        <a asp-action="Edit" asp-route-id="@item.ConsoleName">Edit|</a>
+                    <a asp-action="Delete" asp-route-id="@item.ConsoleName">Delete</a>
+                    }
+                            }
+              </div>
+        </div>
+        }
+
+  </section>
+  <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+        let s="@ViewBag.s";
+        console.log(s);
+    $.getJSON("GameConsoles/GraphData?sortOrder="+s,(data)=>{
+        console.log(data);
+    
+
+    var xValues =[];
+    var yValues = [];
+    var barColors =[];
+    data.forEach((item)=>{
+        let randomNumberOne = Math.floor(Math.random() * 125);
+        let randomNumberTwo = Math.floor(Math.random() * 125);
+        xValues.push(item.consoleName)
+          yValues.push(item.consoleSold);
+          switch (item.manufacturer)
+          {
+              case "Nintendo":
+              barColors.push("rgb("+"255,"+randomNumberOne+","+randomNumberTwo+")")
+              break;
+                case "Microsoft":
+                   barColors.push("rgb("+randomNumberOne+",255,"+randomNumberTwo+")")
+              break;
+                case "Sony":
+                    barColors.push("rgb("+randomNumberOne+","+randomNumberTwo+",255)")
+              break;
+              default:
+                 barColors.push("rgb("+randomNumberOne+","+randomNumberTwo+",100)")
+              break;
+          }
+     
+
+    });
+
+  console.log(barColors);
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Game Consoles Sales (In Millions)"
+    }
+  }
+});
+    });
+</script>
